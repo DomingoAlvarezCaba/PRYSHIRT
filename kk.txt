@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-José Domingo Álvarez Caba 09-04-2020
-=======
-fichero en master
->>>>>>> a56712e0da151e003a8adad0e7c80874c99f204d
