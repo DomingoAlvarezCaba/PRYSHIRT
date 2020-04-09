@@ -16,9 +16,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
-@Table(name="\"order\"")
+@Table(name="\"ORDER\"")
 public class Order {
 	
 	@Id
@@ -38,8 +40,9 @@ public class Order {
 	@Column(name = "user_id")
 	private long userId;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id", insertable=false, updatable=false)
+	@JsonBackReference
 	private User user;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

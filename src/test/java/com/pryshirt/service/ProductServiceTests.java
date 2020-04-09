@@ -48,7 +48,7 @@ public class ProductServiceTests {
 	
 	@Test
 	@Order(3)
-	public void getByColor() {
+	public void getByDisccount() {
 		float discount = 0.0f;
 		List<Product> product = service.getByDiscount(discount);
 		assertNotNull(product);

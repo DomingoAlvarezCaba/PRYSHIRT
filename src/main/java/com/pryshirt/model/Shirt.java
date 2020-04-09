@@ -8,6 +8,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="\"shirt\"")
 public class Shirt {
@@ -25,6 +27,7 @@ public class Shirt {
 	
 	@OneToOne
 	@MapsId
+	@JsonBackReference
 	private Product product;
 
 	public long getId() {

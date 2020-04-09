@@ -4,6 +4,8 @@ package com.pryshirt.service;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -52,7 +54,7 @@ public class UserServiceTests {
 	@Order(3)
 	public void getByName() {
 		String name = "Federico";
-		User user = service.getByName(name).get();
+		List<User> user = service.getByName(name);
 		assertNotNull(user);
 	}
 

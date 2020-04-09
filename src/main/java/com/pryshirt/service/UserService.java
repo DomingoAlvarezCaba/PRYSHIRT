@@ -47,7 +47,7 @@ public class UserService implements CustomService<User> {
 		return removed;
 	}
 	
-	public Optional<User> getByName(String name) {
+	public List<User> getByName(String name) {
 		return repository.findByName(name);
 	}
 }
