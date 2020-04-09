@@ -27,10 +27,10 @@ public class Product {
 	@Column(name = "price")
 	private float price;
 	
-	@Column(name = "state")
-	private float state;
+	@Column(name = "discount")
+	private float discount;
 	
-	@ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
 	@JsonBackReference
 	private Set<Order> orders = new HashSet<>();
 	
@@ -53,12 +53,12 @@ public class Product {
 		this.price = price;
 	}
 
-	public float getState() {
-		return state;
+	public float getDiscount() {
+		return discount;
 	}
 
-	public void setState(float state) {
-		this.state = state;
+	public void setDiscount(float discount) {
+		this.discount = discount;
 	}
 
 	public Set<Order> getOrders() {

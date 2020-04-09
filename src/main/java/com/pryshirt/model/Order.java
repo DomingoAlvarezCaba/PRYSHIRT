@@ -39,7 +39,7 @@ public class Order {
 	private long userId;
 	
 	@ManyToOne
-    @JoinColumn(name="id", insertable=false, updatable=false)
+    @JoinColumn(name="user_id", insertable=false, updatable=false)
 	private User user;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
