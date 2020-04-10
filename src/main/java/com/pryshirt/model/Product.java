@@ -3,9 +3,9 @@ package com.pryshirt.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,11 +30,11 @@ public class Product {
 	@Column(name = "discount")
 	private float discount;
 	
-	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "products")
 	@JsonBackReference
 	private Set<Order> orders = new HashSet<>();
 	
-	@OneToOne(mappedBy = "product")
+	@OneToOne(cascade = CascadeType.ALL)
     private Shirt shirt;
 	
 	public long getId() {

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
-@Table(name="\"ORDER\"")
+@Table(name="\"order\"")
 public class Order {
 	
 	@Id
@@ -45,7 +46,7 @@ public class Order {
 	@JsonBackReference
 	private User user;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 	  name = "\"order_product\"", 
 	  joinColumns = @JoinColumn(name = "order_id"), 
