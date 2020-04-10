@@ -5,7 +5,7 @@ PRYHIRT es un proyecto que se va desarrollar durante las prácticas que voy a re
 una tienda de camisetas dónde el backend se va a realizar con el framework de Java Spring y el frontend se va a hacer con el framework 
 de JavaScript Vue.js.
 
-TECNOLOGÍAS INVOLUCRADAS
+Tecnologías involucradas
 ------------------
 ###### 1 GIT
 Para poder llevar un control de las versiones se va a usar GIT.
@@ -56,7 +56,7 @@ Eclipse un IDE para desarrollar aplicaciones en varios lenguajes, aunque se suel
 
 Visual Studio Code es un IDE completo para programar, depurar, probar e implementar soluciones en cualquier plataforma
 
-REQUISITOS PREVIOS ANTES DE LA EJECUCIÓN DE LA APP
+Requisitos previos a la ejecución de la app
 ------------------
 ###### 1 Postgresql
 
