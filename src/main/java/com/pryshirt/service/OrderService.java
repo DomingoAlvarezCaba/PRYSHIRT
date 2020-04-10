@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.pryshirt.model.Order;
 import com.pryshirt.repository.OrderRepository;
 import com.pryshirt.service.custom.CustomService;
+import com.pryshirt.util.Date;
 
 @Service
 public class OrderService implements CustomService<Order> {
@@ -29,11 +30,14 @@ public class OrderService implements CustomService<Order> {
 
 	@Override
 	public Order add(Order object) {
+		object.setDate(Date.getCurrentDate());
+		object.setDateState(Date.getCurrentDate());
 		return repository.save(object);
 	}
 
 	@Override
 	public Order update(Order object) {
+		object.setDateState(Date.getCurrentDate());
 		return repository.save(object);
 	}
 

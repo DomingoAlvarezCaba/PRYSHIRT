@@ -54,9 +54,9 @@ public class StateController {
 	}
 
 	@GetMapping("/state")
-	public ResponseEntity<List<State>> getStateByOrderId(@RequestParam(required = false) long id) {
+	public ResponseEntity<List<State>> getStateByOrderId(@RequestParam(required = false) long orderId) {
 		ResponseEntity<List<State>> response = null;
-		List<State> states = service.getByOrderId(id);
+		List<State> states = service.getByOrderId(orderId);
 		if (states.isEmpty()) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -82,9 +82,10 @@ public class StateController {
 		ResponseEntity<State> response = null;
 		Optional<State> stateFound = service.getById(id);
 		if (stateFound.isPresent()) {
-			State stateUpdated = stateFound.get();
-			service.add(stateUpdated);
-			response = new ResponseEntity<>(stateUpdated, HttpStatus.OK);
+			stateFound.get().setState(state.getState());
+			stateFound.get().setOrderId(state.getOrderId());
+			service.update(stateFound.get());
+			response = new ResponseEntity<>(stateFound.get(), HttpStatus.OK);
 		} else {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

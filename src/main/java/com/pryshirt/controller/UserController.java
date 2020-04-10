@@ -72,7 +72,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		ResponseEntity<User> response = null;
 		try {
-			User newuser = service.add(user);
+			User newuser = service.update(user);
 			response = new ResponseEntity<>(newuser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -85,9 +85,14 @@ public class UserController {
 		ResponseEntity<User> response = null;
 		Optional<User> userFound = service.getById(id);
 		if (userFound.isPresent()) {
-			User userUpdated = userFound.get();
-			service.add(userUpdated);
-			response = new ResponseEntity<>(userUpdated, HttpStatus.OK);
+			userFound.get().setAddress(user.getAddress());
+			userFound.get().setName(user.getName());
+			userFound.get().setPassword(user.getPassword());
+			userFound.get().setPhone(user.getPhone());
+			userFound.get().setType(user.getType());
+			userFound.get().setUserName(user.getUserName());
+			service.update(userFound.get());
+			response = new ResponseEntity<>(userFound.get(), HttpStatus.OK);
 		} else {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

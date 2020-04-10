@@ -82,9 +82,9 @@ public class OrderController {
 		ResponseEntity<Order> response = null;
 		Optional<Order> orderFound = service.getById(id);
 		if (orderFound.isPresent()) {
-			Order orderUpdated = orderFound.get();
-			service.add(orderUpdated);
-			response = new ResponseEntity<>(orderUpdated, HttpStatus.OK);
+			orderFound.get().setState(order.getState());
+			service.update(orderFound.get());
+			response = new ResponseEntity<>(orderFound.get(), HttpStatus.OK);
 		} else {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

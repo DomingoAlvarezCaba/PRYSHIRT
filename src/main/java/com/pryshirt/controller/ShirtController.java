@@ -1,6 +1,7 @@
 package com.pryshirt.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pryshirt.model.Product;
 import com.pryshirt.model.Shirt;
 import com.pryshirt.service.ShirtService;
 
@@ -66,9 +68,16 @@ public class ShirtController {
 	}
 
 	@PostMapping("/shirt")
-	public ResponseEntity<Shirt> createShirt(@RequestBody Shirt shirt) {
+	public ResponseEntity<Shirt> createShirt(@RequestBody Map<String, String> values) {
 		ResponseEntity<Shirt> response = null;
 		try {
+			Product product = new Product();
+			product.setDiscount(Float.parseFloat(values.get("discount")));
+			product.setPrice(Float.parseFloat(values.get("discount")));
+			Shirt shirt = new Shirt();
+			shirt.setColor(values.get("color"));
+			shirt.setSize(values.get("size"));
+			shirt.setProduct(product);
 			Shirt newshirt = service.add(shirt);
 			response = new ResponseEntity<>(newshirt, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -82,9 +91,10 @@ public class ShirtController {
 		ResponseEntity<Shirt> response = null;
 		Optional<Shirt> shirtFound = service.getById(id);
 		if (shirtFound.isPresent()) {
-			Shirt shirtUpdated = shirtFound.get();
-			service.add(shirtUpdated);
-			response = new ResponseEntity<>(shirtUpdated, HttpStatus.OK);
+			shirtFound.get().setColor(shirt.getColor());
+			shirtFound.get().setSize(shirt.getSize());
+			service.update(shirtFound.get());
+			response = new ResponseEntity<>(shirtFound.get(), HttpStatus.OK);
 		} else {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

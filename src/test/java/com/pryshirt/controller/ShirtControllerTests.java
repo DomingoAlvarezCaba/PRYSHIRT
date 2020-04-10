@@ -3,7 +3,9 @@ package com.pryshirt.controller;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pryshirt.PryshirtApplication;
-import com.pryshirt.model.Product;
 import com.pryshirt.model.Shirt;
 
 @RunWith(SpringRunner.class)
@@ -25,14 +26,12 @@ public class ShirtControllerTests {
 	
 	@Test
 	public void testCreateShirt() {
-		Shirt shirt = new Shirt();
-		Product product = new Product();
-		product.setDiscount(1.75f);
-		product.setPrice(16.25f);
-		shirt.setProduct(product);
-		shirt.setColor("black");
-		shirt.setSize("40");
-		ResponseEntity<Shirt> newShirt = controller.createShirt(shirt);
+		Map<String, String> map = new HashMap<>();
+		map.put("price", "16.25f");
+		map.put("discount", "1.75f");
+		map.put("color", "yellow");
+		map.put("size", "44");
+		ResponseEntity<Shirt> newShirt = controller.createShirt(map);
 		assertNotNull(newShirt);
 		assertNotNull(newShirt.getBody());
 	}

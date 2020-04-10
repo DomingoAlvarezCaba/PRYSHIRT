@@ -82,9 +82,10 @@ public class ProductController {
 		ResponseEntity<Product> response = null;
 		Optional<Product> productFound = service.getById(id);
 		if (productFound.isPresent()) {
-			Product productUpdated = productFound.get();
-			service.add(productUpdated);
-			response = new ResponseEntity<>(productUpdated, HttpStatus.OK);
+			productFound.get().setDiscount(product.getDiscount());
+			productFound.get().setPrice(product.getPrice());
+			service.update(productFound.get());
+			response = new ResponseEntity<>(productFound.get(), HttpStatus.OK);
 		} else {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
