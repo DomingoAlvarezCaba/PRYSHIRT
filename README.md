@@ -7,7 +7,7 @@ de JavaScript Vue.js.
 
 Tecnologías involucradas
 ------------------
-###### 1 GIT
+###### GIT
 Para poder llevar un control de las versiones se va a usar GIT.
 
 Ramas que se van a usar:
@@ -18,11 +18,11 @@ Ramas que se van a usar:
 * Feature-YYY-<nombre> -> rama que se va a crear por cada característica a conseguir. Cuando se ha probado se integra en la rama del
 Sprint en cuestión.
 
-###### 2 Java 8 LTS
+###### Java 8 LTS
 
 Es el kit de desarrollo para Java.
 
-###### 3 Postman
+###### Postman
 
 Para poder mandar peticiones y poder testear la API REST, se va a necesitar una herramienta como POSTMAN.
 
@@ -58,7 +58,7 @@ Visual Studio Code es un IDE completo para programar, depurar, probar e implemen
 
 Requisitos previos a la ejecución de la app
 ------------------
-###### 1 Postgresql
+###### Postgresql
 
 Es necesario tener el sistema gestor de base de datos postgresql en tu dispositivo.
 
