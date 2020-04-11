@@ -65,7 +65,7 @@ public class OrderController {
 		return response;
 	}
 
-	@PostMapping("/order")
+	@PostMapping(value = "/order")
 	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 		ResponseEntity<Order> response = null;
 		try {

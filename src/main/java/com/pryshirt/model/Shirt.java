@@ -1,5 +1,6 @@
 package com.pryshirt.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Shirt {
 	@Column(name = "color", length = 20)
 	private String color;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
 	private Product product;
 
