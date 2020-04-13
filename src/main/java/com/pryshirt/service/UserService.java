@@ -1,6 +1,7 @@
 package com.pryshirt.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,14 @@ public class UserService implements CustomService<User> {
 	
 	public List<User> getByName(String name) {
 		return repository.findByName(name);
+	}
+	
+	public User checkLogin(Map<String,String> credentials) {
+		User user = null;
+		Optional<User> oUser = repository.findByUserName(credentials.get("userName"));
+		if(oUser.isPresent() && oUser.get().getPassword().equals(credentials.get("password"))) {
+			user = oUser.get();
+		}
+		return user;
 	}
 }
