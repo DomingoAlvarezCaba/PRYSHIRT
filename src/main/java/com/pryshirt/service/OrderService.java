@@ -55,7 +55,4 @@ public class OrderService implements CustomService<Order> {
 	public List<Order> getByState(String state){
 		return repository.findByState(state);
 	}
-	public List<Order> getByUserId(long userId){
-		return repository.findByUserId(userId);
-	}
 }
