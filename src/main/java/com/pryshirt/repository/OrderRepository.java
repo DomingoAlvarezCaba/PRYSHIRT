@@ -10,4 +10,5 @@ import com.pryshirt.model.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByState(String state);
+	List<Order> findByUserId(long userId);
 }
