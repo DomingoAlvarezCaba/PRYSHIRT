@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,7 @@ import com.pryshirt.service.OrderService;
 
 @RestController
 @RequestMapping("/pryshirt")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class OrderController {
 
 	@Autowired
@@ -64,8 +67,20 @@ public class OrderController {
 
 		return response;
 	}
+	
+	@GetMapping("/order/getByUserId/{userId}")
+	public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable("userId") long userId) {
+		ResponseEntity<List<Order>> response = null;
+		List<Order> orders = service.getByUserId(userId);
+		if (orders.isEmpty()) {
+			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		response = new ResponseEntity<>(orders, HttpStatus.OK);
 
-	@PostMapping("/order")
+		return response;
+	}
+
+	@PostMapping(value = "/order")
 	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 		ResponseEntity<Order> response = null;
 		try {
