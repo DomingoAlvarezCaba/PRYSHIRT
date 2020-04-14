@@ -64,7 +64,7 @@ Es necesario tener el sistema gestor de base de datos postgresql en tu dispositi
 
 Configuración de la base de datos:
 
-* Para poder cambiar algunos parámetros de la base de datos, se tiene que acceder alfichero ``` src/main/resources/application.properties ```
+* Para poder cambiar algunos parámetros de la base de datos, se tiene que acceder al fichero ``` src/main/resources/application.properties ```
 
 * Aquí se puede modificar la base de datos, el usuario, y la contraseña de la misma.
 ```
@@ -72,6 +72,13 @@ spring.datasource.url= jdbc:postgresql://localhost/shop
 spring.datasource.username= postgres
 spring.datasource.password= admin
 ```
+Cómo ejecutar la app
+--------------------
+Para poder ejecutar la app se tiene ejecutar en una terminal el jar ``` target/PRYSHIRT.jar ```
+```
+java  -jar PRYSHIRT.jar
+```
+
 Rutas para acceder a la API REST
 --------------------------------
 Ejemplo de las rutas para los productos.
