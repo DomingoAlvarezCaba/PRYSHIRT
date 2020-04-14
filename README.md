@@ -64,7 +64,7 @@ Es necesario tener el sistema gestor de base de datos postgresql en tu dispositi
 
 Configuración de la base de datos:
 
-* Para poder algunos parámetros de la base de datos, se tiene que acceder alfichero ``` src/main/resources/application.properties ```
+* Para poder cambiar algunos parámetros de la base de datos, se tiene que acceder alfichero ``` src/main/resources/application.properties ```
 
 * Aquí se puede modificar la base de datos, el usuario, y la contraseña de la misma.
 ```
