@@ -1,0 +1,900 @@
+{
+	"info": {
+		"_postman_id": "f1d0c319-1b12-42fc-86a8-d7a90b445ea0",
+		"name": "PryShirt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{BASE_URL}}/product/12",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 12.75, \"discount\": 1.65\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/product/12",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"product",
+						"12"
+					]
+				},
+				"description": "Borra el producto cuyo id es 12."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 11.75, \"discount\": 1.25\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/product",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"product"
+					]
+				},
+				"description": "Crea y devuelve el producto."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/product/12",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 12.75, \"discount\": 1.65\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/product/12",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"product",
+						"12"
+					]
+				},
+				"description": "Actualiza el producto cuyo id es 12."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/product?discount=1.75",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/product?discount=1.75",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"product"
+					],
+					"query": [
+						{
+							"key": "discount",
+							"value": "1.75"
+						}
+					]
+				},
+				"description": "Devuelve los productos cuyo descuento es 1.75."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/product/3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/product/3",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"product",
+						"3"
+					]
+				},
+				"description": "Devuelve el producto cuyo id es el 3."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/products",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Devuelve todos los productos."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En proceso de fabricación3\", \"userId\": 76, \n\t\"products\": [\n\t\t{\n\t\t\t\"price\" : 1.35, \"discount\": \"1.55\",\n\t\t\t\"shirt\": {\n\t\t\t\t\"color\": \"blue\",\n\t\t\t\t\"size\": \"black\"\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"price\" : 1.25, \"discount\": \"1.55\",\n\t\t\t\"shirt\": {\n\t\t\t\t\"color\": \"black\",\n\t\t\t\t\"size\": \"black\"\n\t\t\t}\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/order",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order"
+					]
+				},
+				"description": "Crea un pedido y lo devuelve."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order/getByUserId/74",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/order/getByUserId/74",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order",
+						"getByUserId",
+						"74"
+					]
+				},
+				"description": "Obtiene los pedidos de un usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order?state=available",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/order?state=available",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "available"
+						}
+					]
+				},
+				"description": "Obtiene los pedidos con el estado disponible."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order/9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/order/9",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order",
+						"9"
+					]
+				},
+				"description": "Obtiene el pedido cuyo id es 9."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order/9",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/order/9",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order",
+						"9"
+					]
+				},
+				"description": "Actualiza el pedido y lo devuelve."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/order/9",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/order/9",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"order",
+						"9"
+					]
+				},
+				"description": "Borra el pedido cuyo id es 9, devuelve true en caso de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/orders",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Obtiene todos los pedidos."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"size\": \"40\", \"color\": \"green\", \"price\": \"1.75\", \"discount\": \"1.15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt"
+					]
+				},
+				"description": "Crea un producto y una camiseta al mismo tiempo, devuelve la camiseta."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 12.75, \"discount\": 1.65\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt/4",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt",
+						"4"
+					]
+				},
+				"description": "Devuelve todas las camisetas."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirt/4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 12.75, \"discount\": 1.65\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt/4",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt",
+						"4"
+					]
+				},
+				"description": "Devuelve la camiseta cuyo id es 4."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirt?color=black",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"price\": 12.75, \"discount\": 1.65\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt?color=black",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "black"
+						}
+					]
+				},
+				"description": "Devuelve las camisetas de color negro."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirt/13",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"size\": \"40\", \"color\": \"white\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt/13",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt",
+						"13"
+					]
+				},
+				"description": "Borra la camiseta cuyo id es 13, en caso de éxito devuelve true."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/shirt/13",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"size\": \"40\", \"color\": \"white\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/shirt/13",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"shirt",
+						"13"
+					]
+				},
+				"description": "Actualiza y devuelve la camiseta cuyo id es 13."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/state",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente fabricación\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/state",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Crea y devuelve un estado de un pedido."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/state/4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente producción\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/state/4",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"state",
+						"4"
+					]
+				},
+				"description": "Obtiene el estado cuyo id es 4."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/states",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente producción\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/states",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"states"
+					]
+				},
+				"description": "Obtiene todos los estados por los han pasado todos los pedidos."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/state?orderId=7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente producción\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/state?orderId=7",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"state"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "7"
+						}
+					]
+				},
+				"description": "Obtiene el estado del pedido cuyo id es 7."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/state/4",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente producción\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/state/4",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"state",
+						"4"
+					]
+				},
+				"description": "Borra el estado cuyo id es 4."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/state/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"orderId\": \"7\", \"state\": \"Pendiente fabricación\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/state/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"state",
+						"1"
+					]
+				},
+				"description": "Actualiza el estado 1."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userName\": \"Federico@adsaddsa\", \"userName\": \"Federico1234\", \"password\": \"12345\", \"address\": \"c/ idk 123\", \"phone\": \"600121212\", \"type\": \"particular\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/checkLogin",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"checkLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user/checkLogin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"userName\": \"paco33@gmail.com\", \"password\": \"Paco1234\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/checkLogin",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"checkLogin"
+					]
+				},
+				"description": "Comprueba el nombre del usuario y la contraseña, devuelve el usuario si coinciden."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user/75",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/75",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"75"
+					]
+				},
+				"description": "Obtiene el usuario que tiene el id 75"
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user?name=Federico",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user?name=Federico",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Federico"
+						}
+					]
+				},
+				"description": "Obtiene los usuarios cuyo nombres es \"Federico\""
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user/75",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 75, \"name\": \"Federico23\", \"userName\": \"Federico12346\", \"password\": \"123456\", \"address\": \"c/ idk 123\", \"phone\": \"600121212\", \"type\": \"empresa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/75",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"75"
+					]
+				},
+				"description": "Modifica un usuario y lo devuelve."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/user/75",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/75",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"75"
+					]
+				},
+				"description": "Borra un usuario, devuelve true en caso de éxito."
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"En envío\", \"userId\": 74\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/users",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Obtiene todos los usuarios"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
