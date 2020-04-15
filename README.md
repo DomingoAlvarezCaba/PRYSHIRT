@@ -32,7 +32,7 @@ Maven es una herramienta para el manejo de dependencias automáticas. Basa su co
 (Project Object Model), el cuál permite guardar la información de todas las dependecias de la aplicación dentro del elemento
 XML dependencies.
 
-Para que maven funcione en windows, se debe de crear una variable de entorno llamada "MAVEN_HOME", con el valor de la ruta de la carpeta dist del archivo maven descomprimido.
+Para que maven funcione en windows, se debe añadir el directorio dist del archivo maven descargado en las variables del entorno como una ruta de las variables del sistema.
 
 ###### WinScp
 
