@@ -32,6 +32,8 @@ Maven es una herramienta para el manejo de dependencias automáticas. Basa su co
 (Project Object Model), el cuál permite guardar la información de todas las dependecias de la aplicación dentro del elemento
 XML dependencies.
 
+Para que maven funcione en windows, se debe de crear una variable de entorno llamada "MAVEN_HOME", con el valor de la ruta de la carpeta dist del archivo maven descomprimido.
+
 ###### WinScp
 
 WinSCP es un cliente SFTP gráfico para Windows que emplea SSH.
@@ -74,7 +76,9 @@ spring.datasource.password= admin
 ```
 Cómo ejecutar la app
 --------------------
-Para poder ejecutar la app se tiene ejecutar en una terminal el jar ``` target/PRYSHIRT.jar ```
+
+Para ejecutar la app, esta se debe de construir, para ello debemos de ejecutar el comando ``` mvn package ```, en esta caso, vamos saltar los tests porque están creados para casos en concreto, por lo tanto, debemos de ejecutar el comando con el parámetro ``` mvn package -DskipTests ```
+Para poder ejecutar la app se tiene ejecutar en una terminal el jar ``` target/PRYSHIRT-0.0.1-SNAPSHOT.jar ```
 ```
 java  -jar PRYSHIRT.jar
 ```
