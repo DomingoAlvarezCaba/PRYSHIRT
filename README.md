@@ -78,7 +78,9 @@ Cómo ejecutar la app
 --------------------
 
 Para ejecutar la app, esta se debe de construir, para ello debemos de ejecutar el comando ``` mvn package ```, en esta caso, vamos saltar los tests porque están creados para casos en concreto, por lo tanto, debemos de ejecutar el comando con el parámetro ``` mvn package -DskipTests ```
-Para poder ejecutar la app se tiene ejecutar en una terminal el jar ``` target/PRYSHIRT-0.0.1-SNAPSHOT.jar ```
+
+
+Una vez construido, se debe de ejecutar el jar ``` target/PRYSHIRT-0.0.1-SNAPSHOT.jar ```
 ```
 java  -jar PRYSHIRT.jar
 ```
