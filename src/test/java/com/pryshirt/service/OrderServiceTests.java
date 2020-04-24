@@ -1,72 +1,93 @@
 package com.pryshirt.service;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.Order;
+import com.pryshirt.repository.OrderRepository;
+import com.pryshirt.utils.Expectations;
 
-@TestMethodOrder(OrderAnnotation.class)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTests {
-
-	@Autowired
+	
+	@Mock
+	private OrderRepository repository;
+	
+	@InjectMocks
 	private OrderService service;
 	
-	private static final long ID = 1;
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
-	@org.junit.jupiter.api.Order(1)
 	public void create() {
-		Order order = new Order();
-		order.setState("available");
-		order.setDate(new Calendar.Builder().build());
-		order.setDateState(new Calendar.Builder().build());
-		order.setUserId(25);
-		Order newOrder = service.add(order);
-		assertNotNull(newOrder);
+		Order order = Expectations.createOrder("available", new Calendar.Builder().build(), new Calendar.Builder().build(), 64l);
+		Mockito.when(repository.save(order)).thenReturn(order);
+		Order result = service.create(order);
+		Assertions.assertEquals("available", result.getState());
+		Assertions.assertNotNull(result.getDate());
+		Assertions.assertNotNull(result.getDateState());
+		Assertions.assertEquals(64l, result.getUserId());
+		Mockito.verify(repository, Mockito.times(1)).save(order);
 	}
 	
 	@Test
-	@org.junit.jupiter.api.Order(2)
 	public void getById() {
-		Order order = service.getById(ID).get();
-		assertNotNull(order);
+		Order order = Expectations.createOrder("available", new Calendar.Builder().build(), new Calendar.Builder().build(), 64l);
+		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(order));
+		Optional<Order> result = service.getById(Mockito.anyLong());
+		Assertions.assertEquals("available", result.get().getState());
+		Assertions.assertNotNull(result.get().getDate());
+		Assertions.assertNotNull(result.get().getDateState());
+		Assertions.assertEquals(64l, result.get().getUserId());
+		Mockito.verify(repository, Mockito.times(1)).findById(Mockito.anyLong());
+	}
+
+	@Test
+	public void getByState() {
+		Mockito.when(repository.findByState(Mockito.anyString())).thenReturn(new ArrayList<Order>());
+		List<Order> newShirts = service.getByState(Mockito.anyString());
+		Mockito.verify(repository, Mockito.times(1)).findByState(Mockito.anyString());
+		Assertions.assertNotNull(newShirts);
 	}
 	
 	@Test
-	@org.junit.jupiter.api.Order(3)
-	public void getByState() {
-		String state = "available";
-		List<Order> order = service.getByState(state);
-		assertNotNull(order);
+	public void getByUserId() {
+		Mockito.when(repository.findByUserId(Mockito.anyLong())).thenReturn(new ArrayList<Order>());
+		List<Order> newShirts = service.getByUserId(Mockito.anyLong());
+		Mockito.verify(repository, Mockito.times(1)).findByUserId(Mockito.anyLong());
+		Assertions.assertNotNull(newShirts);
 	}
 
 	@Test
-	@org.junit.jupiter.api.Order(4)
 	public void update() {
-		Order order = service.getById(ID).get();
-		order.setState("not available");
-		Order updated = service.update(order);
-		assertNotNull(updated);
+		Order order = Expectations.createOrder("available", new Calendar.Builder().build(), new Calendar.Builder().build(), 64l);
+		Mockito.when(repository.save(order)).thenReturn(order);
+		Order result = service.update(order);
+		Assertions.assertEquals("available", result.getState());
+		Assertions.assertNotNull(result.getDate());
+		Assertions.assertNotNull(result.getDateState());
+		Assertions.assertEquals(64l, result.getUserId());
+		Mockito.verify(repository, Mockito.times(1)).save(order);
 	}
-
+	
 	@Test
-	@org.junit.jupiter.api.Order(5)
 	public void delete() {
-		assertTrue(service.remove(ID));
+		service.delete(1l);
+		Mockito.verify(repository, Mockito.times(1)).deleteById(1l);
 	}
 }

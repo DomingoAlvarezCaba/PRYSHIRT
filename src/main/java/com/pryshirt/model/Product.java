@@ -84,4 +84,21 @@ public class Product {
 	public Product(long id) {
 		this.id = id;
 	}
+
+	public Product(long id, float price, float discount) {
+		this.id = id;
+		this.price = price;
+		this.discount = discount;
+	}
+	
+	public Product(float discount, float price) {
+		this.discount = discount;
+		this.price = price;
+	}
+	
+	public Product(float discount, float price, Shirt shirt) {
+		this.discount = discount;
+		this.price = price;
+		this.shirt = shirt;
+	}
 }

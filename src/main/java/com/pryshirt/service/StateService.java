@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.pryshirt.model.State;
 import com.pryshirt.repository.StateRepository;
-import com.pryshirt.service.custom.CustomService;
+import com.pryshirt.service.generic.CustomService;
 import com.pryshirt.util.Date;
 
 @Service
@@ -28,7 +28,7 @@ public class StateService implements CustomService<State> {
 	}
 
 	@Override
-	public State add(State object) {
+	public State create(State object) {
 		object.setDateState(Date.getCurrentDate());
 		return repository.save(object);
 	}
@@ -40,7 +40,7 @@ public class StateService implements CustomService<State> {
 	}
 
 	@Override
-	public boolean remove(long id) {
+	public boolean delete(long id) {
 		boolean removed = true;
 		try {
 			repository.deleteById(id);

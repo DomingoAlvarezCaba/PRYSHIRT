@@ -114,4 +114,22 @@ public class User {
 		this.id = id;
 	}
 
+	public User(long id, String address, String name, String password, String phone, String type, String userName) {
+		this.id = id;
+		this.address = address;
+		this.name = name;
+		this.password = password;
+		this.phone = phone;
+		this.type = type;
+		this.userName = userName;
+	}
+	
+	public User(String address, String name, String password, String phone, String type, String userName) {
+		this.address = address;
+		this.name = name;
+		this.password = password;
+		this.phone = phone;
+		this.type = type;
+		this.userName = userName;
+	}
 }

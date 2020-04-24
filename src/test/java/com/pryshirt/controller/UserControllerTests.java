@@ -1,70 +1,102 @@
 package com.pryshirt.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.User;
+import com.pryshirt.service.UserService;
+import com.pryshirt.utils.Expectations;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(MockitoJUnitRunner.class)
 public class UserControllerTests {
-
-	@Autowired
+	
+	@Mock
+	private UserService service;
+	
+	@InjectMocks
 	private UserController controller;
 	
-	@Test
-	public void testCreateUser() {
-		User user = new User();
-		user.setAddress("c/ example n12");
-		user.setName("Frederic");
-		user.setPassword("123456");
-		user.setPhone("644865819");
-		user.setType("particular");
-		user.setUserName("fred" + Math.random());
-		ResponseEntity<User> newUser = controller.createUser(user);
-		assertNotNull(newUser);
-		assertNotNull(newUser.getBody());
+	
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-	public void testGetUserById() {
-		long userId = 64;
-		User user = controller.getUserById(userId).getBody();
-		assertNotNull(user);
+	public void create() {
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(service.create(user)).thenReturn(user);
+		ResponseEntity<User> response = controller.createUser(user);
+		Assertions.assertNotNull(response.getBody());
+		User result = response.getBody();
+		Assertions.assertEquals("c/ example n12", result.getAddress());
+		Assertions.assertEquals("Federico", result.getName());
+		Assertions.assertEquals("123456", result.getPassword());
+		Assertions.assertEquals("644865819", result.getPhone());
+		Assertions.assertEquals("particular", result.getType());
+		Assertions.assertEquals("fred", result.getUserName());
+		Mockito.verify(service, Mockito.times(1)).create(user);
+	}
+	
+	@Test
+	public void getById() {
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(user));
+		ResponseEntity<User> response = controller.getUserById(Mockito.anyLong());
+		Assertions.assertNotNull(response.getBody());
+		User result = response.getBody();
+		Assertions.assertEquals("c/ example n12", result.getAddress());
+		Assertions.assertEquals("Federico", result.getName());
+		Assertions.assertEquals("123456", result.getPassword());
+		Assertions.assertEquals("644865819", result.getPhone());
+		Assertions.assertEquals("particular", result.getType());
+		Assertions.assertEquals("fred", result.getUserName());
+		Mockito.verify(service, Mockito.times(1)).getById(Mockito.anyLong());
 	}
 
 	@Test
-	public void testGetUsersByName() {
-		String name = "Federic";
-		List<User> users = controller.getUserByName(name).getBody();
-		assertNotNull(users);
+	public void getByName() {
+		Mockito.when(service.getByName(Mockito.anyString())).thenReturn(new ArrayList<User>());
+		ResponseEntity<List<User>> response = controller.getUserByName(Mockito.anyString());
+		Assertions.assertNotNull(response.getBody());
+		List<User> newUsers = response.getBody();
+		Mockito.verify(service, Mockito.times(1)).getByName(Mockito.anyString());
+		Assertions.assertNotNull(newUsers);
 	}
 
-	@Test
-	public void testUpdateUser() {
-		long userId = 65;
-		User user = controller.getUserById(userId).getBody();
-		user.setName("idk");
-		User updatedUser = controller.updateUser(userId, user).getBody();
-		assertNotNull(updatedUser);
-	}
 
 	@Test
-	public void testDeleteUser() {
-		long userId = 66;
-		User user = controller.getUserById(userId).getBody();
-		assertNotNull(user);
-		boolean erased = controller.deleteUser(userId).getBody();
-		assertTrue(erased);
+	public void update() {
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(user));
+		Mockito.when(service.update(user)).thenReturn(user);
+		ResponseEntity<User> response = controller.updateUser(Mockito.anyLong(), user);
+		Assertions.assertNotNull(response.getBody());
+		User result = response.getBody();
+		Assertions.assertEquals("c/ example n12", result.getAddress());
+		Assertions.assertEquals("Federico", result.getName());
+		Assertions.assertEquals("123456", result.getPassword());
+		Assertions.assertEquals("644865819", result.getPhone());
+		Assertions.assertEquals("particular", result.getType());
+		Assertions.assertEquals("fred", result.getUserName());
+		Mockito.verify(service, Mockito.times(1)).update(user);
+	}
+	
+	@Test
+	public void delete() {
+		service.delete(Mockito.anyLong());
+		Mockito.verify(service, Mockito.times(1)).delete(Mockito.anyLong());
 	}
 }

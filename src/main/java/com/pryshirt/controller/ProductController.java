@@ -69,7 +69,7 @@ public class ProductController {
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		ResponseEntity<Product> response = null;
 		try {
-			Product newproduct = service.add(product);
+			Product newproduct = service.create(product);
 			response = new ResponseEntity<>(newproduct, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -96,7 +96,7 @@ public class ProductController {
 	public ResponseEntity<Boolean> deleteProduct(@PathVariable("id") long id) {
 		ResponseEntity<Boolean> response = null;
 		try {
-			boolean removed = service.remove(id);
+			boolean removed = service.delete(id);
 			response = new ResponseEntity<>(removed, HttpStatus.OK);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

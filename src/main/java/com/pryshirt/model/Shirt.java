@@ -70,4 +70,14 @@ public class Shirt {
 		this.id = id;
 	}
 
+	public Shirt(long id, String size, String color) {
+		this.id = id;
+		this.size = size;
+		this.color = color;
+	}
+	
+	public Shirt(String color, String size) {
+		this.color = color;
+		this.size = size;
+	}
 }

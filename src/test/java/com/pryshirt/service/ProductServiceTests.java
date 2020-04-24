@@ -1,71 +1,85 @@
 package com.pryshirt.service;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.Product;
+import com.pryshirt.model.Shirt;
+import com.pryshirt.repository.ProductRepository;
+import com.pryshirt.utils.Expectations;
 
-
-@TestMethodOrder(OrderAnnotation.class)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@RunWith(MockitoJUnitRunner.class)
 public class ProductServiceTests {
-
-	@Autowired
+	
+	@Mock
+	private ProductRepository repository;
+	
+	@InjectMocks
 	private ProductService service;
 	
-	private static final long ID = 3;
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
-	@Order(1)
 	public void create() {
-		Product product = new Product();
-		product.setDiscount(0.0f);
-		product.setPrice(100.25f);
-		Product newProduct = service.add(product);
-		assertNotNull(newProduct);
+		Product product = Expectations.createProduct(1.75f, 16.25f, new Shirt("black", "40"));
+		Mockito.when(repository.save(product)).thenReturn(product);
+		Product result = service.create(product);
+		Assertions.assertEquals(1.75f, result.getDiscount());
+		Assertions.assertEquals(16.25f, result.getPrice());
+		Assertions.assertEquals("black", result.getShirt().getColor());
+		Assertions.assertEquals("40", result.getShirt().getSize());
+		Mockito.verify(repository, Mockito.times(1)).save(product);
 	}
 	
 	@Test
-	@Order(2)
 	public void getById() {
-		Product product = service.getById(ID).get();
-		assertNotNull(product);
+		Product product = Expectations.createProduct(1.75f, 16.25f, new Shirt("black", "40"));
+		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(product));
+		Optional<Product> result = service.getById(Mockito.anyLong());
+		Assertions.assertEquals(1.75f, result.get().getDiscount());
+		Assertions.assertEquals(16.25f, result.get().getPrice());
+		Assertions.assertEquals("black", result.get().getShirt().getColor());
+		Assertions.assertEquals("40", result.get().getShirt().getSize());
+		Mockito.verify(repository, Mockito.times(1)).findById(Mockito.anyLong());
+	}
+
+	@Test
+	public void getByDiscount() {
+		Mockito.when(repository.findByDiscount(Mockito.anyFloat())).thenReturn(new ArrayList<Product>());
+		List<Product> newShirts = service.getByDiscount(Mockito.anyFloat());
+		Mockito.verify(repository, Mockito.times(1)).findByDiscount(Mockito.anyFloat());
+		Assertions.assertNotNull(newShirts);
+	}
+
+	@Test
+	public void update() {
+		Product product = Expectations.createProduct(1.75f, 16.25f, new Shirt("black", "40"));
+		Mockito.when(repository.save(product)).thenReturn(product);
+		Product result = service.update(product);
+		Assertions.assertEquals(1.75f, result.getDiscount());
+		Assertions.assertEquals(16.25f, result.getPrice());
+		Assertions.assertEquals("black", result.getShirt().getColor());
+		Assertions.assertEquals("40", result.getShirt().getSize());
+		Mockito.verify(repository, Mockito.times(1)).save(product);
 	}
 	
 	@Test
-	@Order(3)
-	public void getByDisccount() {
-		float discount = 0.0f;
-		List<Product> product = service.getByDiscount(discount);
-		assertNotNull(product);
-	}
-
-	@Test
-	@Order(4)
-	public void update() {
-		Product product = service.getById(ID).get();
-		product.setDiscount(1.25f);
-		Product updated = service.update(product);
-		assertNotNull(updated);
-	}
-
-	@Test
-	@Order(5)
 	public void delete() {
-		assertTrue(service.remove(ID));
+		service.delete(1l);
+		Mockito.verify(repository, Mockito.times(1)).deleteById(1l);
 	}
 }

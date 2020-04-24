@@ -1,70 +1,90 @@
 package com.pryshirt.controller;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.Shirt;
+import com.pryshirt.service.ShirtService;
+import com.pryshirt.utils.Expectations;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(MockitoJUnitRunner.class)
 public class ShirtControllerTests {
-
-	@Autowired
+	
+	@Mock
+	private ShirtService service;
+	
+	@InjectMocks
 	private ShirtController controller;
 	
-	@Test
-	public void testCreateShirt() {
-		Map<String, String> map = new HashMap<>();
-		map.put("price", "16.25f");
-		map.put("discount", "1.75f");
-		map.put("color", "yellow");
-		map.put("size", "44");
-		ResponseEntity<Shirt> newShirt = controller.createShirt(map);
-		assertNotNull(newShirt);
-		assertNotNull(newShirt.getBody());
+	
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-	public void testGetShirtById() {
-		long shirtId = 9;
-		Shirt shirt = controller.getShirtlById(shirtId).getBody();
-		assertNotNull(shirt);
+	public void create() {
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(service.create(shirt)).thenReturn(shirt);
+		ResponseEntity<Shirt> response = controller.createShirt(shirt);
+		Assertions.assertNotNull(response.getBody());
+		Shirt result = response.getBody();
+		Assertions.assertEquals("black", result.getColor());
+		Assertions.assertEquals("40", result.getSize());
+		Mockito.verify(service, Mockito.times(1)).create(shirt);
+	}
+	
+	@Test
+	public void getById() {
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(shirt));
+		ResponseEntity<Shirt> response = controller.getShirtById(Mockito.anyLong());
+		Assertions.assertNotNull(response.getBody());
+		Shirt result = response.getBody();
+		Assertions.assertEquals("black", result.getColor());
+		Assertions.assertEquals("40", result.getSize());
+		Mockito.verify(service, Mockito.times(1)).getById(Mockito.anyLong());
 	}
 
 	@Test
-	public void testGetShirtsByColor() {
-		String color = "black";
-		List<Shirt> shirts = controller.getShirtByColor(color).getBody();
-		assertNotNull(shirts);
+	public void testGetByColor() {
+		Mockito.when(service.getByColor(Mockito.anyString())).thenReturn(new ArrayList<Shirt>());
+		ResponseEntity<List<Shirt>> response = controller.getShirtByColor(Mockito.anyString());
+		Assertions.assertNotNull(response.getBody());
+		List<Shirt> newShirts = response.getBody();
+		Mockito.verify(service, Mockito.times(1)).getByColor(Mockito.anyString());
+		Assertions.assertNotNull(newShirts);
 	}
 
-	@Test
-	public void testUpdateShirt() {
-		long shirtId = 9;
-		Shirt shirt = controller.getShirtlById(shirtId).getBody();
-		shirt.setColor("white");
-		Shirt updatedShirt = controller.updateShirt(shirtId, shirt).getBody();
-		assertNotNull(updatedShirt);
-	}
 
 	@Test
-	public void testDeleteShirt() {
-		long shirtId = 9;
-		Shirt shirt = controller.getShirtlById(shirtId).getBody();
-		assertNotNull(shirt);
-		boolean erased = controller.deleteShirt(shirtId).getBody();
-		assertTrue(erased);
+	public void update() {
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(shirt));
+		Mockito.when(service.update(shirt)).thenReturn(shirt);
+		ResponseEntity<Shirt> response = controller.updateShirt(Mockito.anyLong(), shirt);
+		Assertions.assertNotNull(response.getBody());
+		Shirt result = response.getBody();
+		Assertions.assertEquals("black", result.getColor());
+		Assertions.assertEquals("40", result.getSize());
+		Mockito.verify(service, Mockito.times(1)).update(shirt);
+	}
+	
+	@Test
+	public void delete() {
+		service.delete(Mockito.anyLong());
+		Mockito.verify(service, Mockito.times(1)).delete(Mockito.anyLong());
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.pryshirt.model.Product;
 import com.pryshirt.repository.ProductRepository;
-import com.pryshirt.service.custom.CustomService;
+import com.pryshirt.service.generic.CustomService;
 
 @Service
 public class ProductService implements CustomService<Product> {
@@ -27,7 +27,7 @@ public class ProductService implements CustomService<Product> {
 	}
 
 	@Override
-	public Product add(Product object) {
+	public Product create(Product object) {
 		return repository.save(object);
 	}
 
@@ -37,7 +37,7 @@ public class ProductService implements CustomService<Product> {
 	}
 
 	@Override
-	public boolean remove(long id) {
+	public boolean delete(long id) {
 		boolean removed = true;
 		try {
 			repository.deleteById(id);

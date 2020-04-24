@@ -1,67 +1,94 @@
 package com.pryshirt.controller;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.State;
+import com.pryshirt.service.StateService;
+import com.pryshirt.utils.Expectations;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(MockitoJUnitRunner.class)
 public class StateControllerTests {
-
-	@Autowired
+	
+	@Mock
+	private StateService service;
+	
+	@InjectMocks
 	private StateController controller;
 	
-	@Test
-	public void testCreateState() {
-		State state = new State();
-		state.setState("delivered");
-		state.setDateState(new Calendar.Builder().build());
-		state.setId(1);
-		ResponseEntity<State> newState = controller.createState(state);
-		assertNotNull(newState);
-		assertNotNull(newState.getBody());
+	
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-	public void testGetStateById() {
-		State state = controller.getStatelById(3).getBody();
-		assertNotNull(state);
+	public void create() {
+		State state = Expectations.createState("delivered", new Calendar.Builder().build(), 1l);
+		Mockito.when(service.create(state)).thenReturn(state);
+		ResponseEntity<State> response = controller.createState(state);
+		Assertions.assertNotNull(response.getBody());
+		State result = response.getBody();
+		Assertions.assertEquals("delivered", result.getState());
+		Assertions.assertNotNull(result.getDateState());
+		Assertions.assertEquals(1l, result.getOrderId());
+		Mockito.verify(service, Mockito.times(1)).create(state);
+	}
+	
+	@Test
+	public void getById() {
+		State state = Expectations.createState("delivered", new Calendar.Builder().build(), 1l);
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(state));
+		ResponseEntity<State> response = controller.getStateById(Mockito.anyLong());
+		Assertions.assertNotNull(response.getBody());
+		State result = response.getBody();
+		Assertions.assertEquals("delivered", result.getState());
+		Assertions.assertNotNull(result.getDateState());
+		Assertions.assertEquals(1l, result.getOrderId());
+		Mockito.verify(service, Mockito.times(1)).getById(Mockito.anyLong());
 	}
 
 	@Test
 	public void testGetStatesByOrderId() {
-		long stateId = 0;
-		List<State> states = controller.getStateByOrderId(stateId).getBody();
-		assertNotNull(states);
+		Mockito.when(service.getByOrderId(Mockito.anyLong())).thenReturn(new ArrayList<State>());
+		ResponseEntity<List<State>> response = controller.getStateByOrderId(Mockito.anyLong());
+		Assertions.assertNotNull(response.getBody());
+		List<State> newStates = response.getBody();
+		Mockito.verify(service, Mockito.times(1)).getByOrderId(Mockito.anyLong());
+		Assertions.assertNotNull(newStates);
 	}
 
-	@Test
-	public void testUpdateState() {
-		State state = controller.getStatelById(3).getBody();
-		state.setState("new");
-		State updatedState = controller.updateState(3, state).getBody();
-		assertNotNull(updatedState);
-	}
 
 	@Test
-	public void testDeleteState() {
-		long stateId = 3;
-		State state = controller.getStatelById(stateId).getBody();
-		assertNotNull(state);
-		boolean erased = controller.deleteState(stateId).getBody();
-		assertTrue(erased);
+	public void update() {
+		State state = Expectations.createState("delivered", new Calendar.Builder().build(), 1l);
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(Optional.of(state));
+		Mockito.when(service.update(state)).thenReturn(state);
+		ResponseEntity<State> response = controller.updateState(Mockito.anyLong(), state);
+		Assertions.assertNotNull(response.getBody());
+		State result = response.getBody();
+		Assertions.assertEquals("delivered", result.getState());
+		Assertions.assertNotNull(result.getDateState());
+		Assertions.assertEquals(1l, result.getOrderId());
+		Mockito.verify(service, Mockito.times(1)).update(state);
+	}
+	
+	@Test
+	public void delete() {
+		service.delete(Mockito.anyLong());
+		Mockito.verify(service, Mockito.times(1)).delete(Mockito.anyLong());
 	}
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.pryshirt.model.User;
 import com.pryshirt.repository.UserRepository;
-import com.pryshirt.service.custom.CustomService;
+import com.pryshirt.service.generic.CustomService;
 
 @Service
 public class UserService implements CustomService<User> {
@@ -28,7 +28,7 @@ public class UserService implements CustomService<User> {
 	}
 
 	@Override
-	public User add(User object) {
+	public User create(User object) {
 		return repository.save(object);
 	}
 
@@ -38,7 +38,7 @@ public class UserService implements CustomService<User> {
 	}
 
 	@Override
-	public boolean remove(long id) {
+	public boolean delete(long id) {
 		boolean removed = true;
 		try {
 			repository.deleteById(id);
@@ -46,6 +46,11 @@ public class UserService implements CustomService<User> {
 			removed = false;
 		}
 		return removed;
+	}
+	
+
+	public Optional<User> getByUserName(String userName) {
+		return repository.findByUserName(userName);
 	}
 	
 	public List<User> getByName(String name) {
