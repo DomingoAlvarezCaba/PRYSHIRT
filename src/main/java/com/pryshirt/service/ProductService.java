@@ -23,7 +23,6 @@ public class ProductService implements CustomService<Product> {
 
 	@Override
 	public Optional<Product> getById(long id) {
-		System.out.print("xd");
 		return repository.findById(id);
 	}
 
