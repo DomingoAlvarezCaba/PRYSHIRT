@@ -76,7 +76,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		ResponseEntity<User> response = null;
 		try {
-			User newUser = service.update(user);
+			User newUser = service.create(user);
 			response = new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -107,6 +107,7 @@ public class UserController {
 			userFound.get().setPhone(user.getPhone());
 			userFound.get().setType(user.getType());
 			userFound.get().setUserName(user.getUserName());
+			System.out.print("XD");
 			service.update(userFound.get());
 			response = new ResponseEntity<>(userFound.get(), HttpStatus.OK);
 		} else {
@@ -119,7 +120,7 @@ public class UserController {
 	public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id) {
 		ResponseEntity<Boolean> response = null;
 		try {
-			boolean removed = service.remove(id);
+			boolean removed = service.delete(id);
 			response = new ResponseEntity<>(removed, HttpStatus.OK);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

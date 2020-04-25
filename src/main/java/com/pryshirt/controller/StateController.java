@@ -42,7 +42,7 @@ public class StateController {
 	}
 
 	@GetMapping("/state/{id}")
-	public ResponseEntity<State> getStatelById(@PathVariable("id") long id) {
+	public ResponseEntity<State> getStateById(@PathVariable("id") long id) {
 		ResponseEntity<State> response = null;
 		Optional<State> state = service.getById(id);
 		if (state.isPresent()) {
@@ -69,7 +69,7 @@ public class StateController {
 	public ResponseEntity<State> createState(@RequestBody State state) {
 		ResponseEntity<State> response = null;
 		try {
-			State newstate = service.add(state);
+			State newstate = service.create(state);
 			response = new ResponseEntity<>(newstate, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -96,7 +96,7 @@ public class StateController {
 	public ResponseEntity<Boolean> deleteState(@PathVariable("id") long id) {
 		ResponseEntity<Boolean> response = null;
 		try {
-			boolean removed = service.remove(id);
+			boolean removed = service.delete(id);
 			response = new ResponseEntity<>(removed, HttpStatus.OK);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

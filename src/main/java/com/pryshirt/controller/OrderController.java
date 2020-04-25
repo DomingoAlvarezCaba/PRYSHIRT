@@ -84,7 +84,7 @@ public class OrderController {
 	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 		ResponseEntity<Order> response = null;
 		try {
-			Order neworder = service.add(order);
+			Order neworder = service.create(order);
 			response = new ResponseEntity<>(neworder, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -110,7 +110,7 @@ public class OrderController {
 	public ResponseEntity<Boolean> deleteOrder(@PathVariable("id") long id) {
 		ResponseEntity<Boolean> response = null;
 		try {
-			boolean removed = service.remove(id);
+			boolean removed = service.delete(id);
 			response = new ResponseEntity<>(removed, HttpStatus.OK);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

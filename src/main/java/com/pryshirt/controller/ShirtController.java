@@ -1,7 +1,6 @@
 package com.pryshirt.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pryshirt.model.Product;
 import com.pryshirt.model.Shirt;
 import com.pryshirt.service.ShirtService;
 
@@ -44,7 +42,7 @@ public class ShirtController {
 	}
 
 	@GetMapping("/shirt/{id}")
-	public ResponseEntity<Shirt> getShirtlById(@PathVariable("id") long id) {
+	public ResponseEntity<Shirt> getShirtById(@PathVariable("id") long id) {
 		ResponseEntity<Shirt> response = null;
 		Optional<Shirt> shirt = service.getById(id);
 		if (shirt.isPresent()) {
@@ -68,17 +66,10 @@ public class ShirtController {
 	}
 
 	@PostMapping("/shirt")
-	public ResponseEntity<Shirt> createShirt(@RequestBody Map<String, String> values) {
+	public ResponseEntity<Shirt> createShirt(@RequestBody Shirt shirt) {
 		ResponseEntity<Shirt> response = null;
 		try {
-			Product product = new Product();
-			product.setDiscount(Float.parseFloat(values.get("discount")));
-			product.setPrice(Float.parseFloat(values.get("discount")));
-			Shirt shirt = new Shirt();
-			shirt.setColor(values.get("color"));
-			shirt.setSize(values.get("size"));
-			shirt.setProduct(product);
-			Shirt newshirt = service.add(shirt);
+			Shirt newshirt = service.create(shirt);
 			response = new ResponseEntity<>(newshirt, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -105,7 +96,7 @@ public class ShirtController {
 	public ResponseEntity<Boolean> deleteShirt(@PathVariable("id") long id) {
 		ResponseEntity<Boolean> response = null;
 		try {
-			boolean removed = service.remove(id);
+			boolean removed = service.delete(id);
 			response = new ResponseEntity<>(removed, HttpStatus.OK);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

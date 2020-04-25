@@ -1,75 +1,100 @@
 package com.pryshirt.service;
 
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.pryshirt.PryshirtApplication;
 import com.pryshirt.model.User;
+import com.pryshirt.repository.UserRepository;
+import com.pryshirt.utils.Expectations;
 
-@TestMethodOrder(OrderAnnotation.class)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTests {
-
-	@Autowired
+	
+	@Mock
+	private UserRepository repository;
+	
+	@InjectMocks
 	private UserService service;
 	
-	private static final long ID = 25;
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
-	@Order(1)
 	public void create() {
-		User user = new User();
-		user.setAddress("c/ example n12");
-		user.setName("Federico");
-		user.setPassword("123456");
-		user.setPhone("644865819");
-		user.setType("particular");
-		user.setUserName("fred");
-		User newUser = service.add(user);
-		assertNotNull(newUser);
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(repository.save(user)).thenReturn(user);
+		User result = service.create(user);
+		Assertions.assertEquals("c/ example n12", result.getAddress());
+		Assertions.assertEquals("Federico", result.getName());
+		Assertions.assertEquals("123456", result.getPassword());
+		Assertions.assertEquals("644865819", result.getPhone());
+		Assertions.assertEquals("particular", result.getType());
+		Assertions.assertEquals("fred", result.getUserName());
+		Mockito.verify(repository, Mockito.times(1)).save(user);
 	}
 	
 	@Test
-	@Order(2)
 	public void getById() {
-		User user = service.getById(ID).get();
-		assertNotNull(user);
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
+		Optional<User> result = service.getById(Mockito.anyLong());
+		Assertions.assertTrue(result.isPresent());
+		Assertions.assertEquals("c/ example n12", result.get().getAddress());
+		Assertions.assertEquals("Federico", result.get().getName());
+		Assertions.assertEquals("123456", result.get().getPassword());
+		Assertions.assertEquals("644865819", result.get().getPhone());
+		Assertions.assertEquals("particular", result.get().getType());
+		Assertions.assertEquals("fred", result.get().getUserName());
+		Mockito.verify(repository, Mockito.times(1)).findById(user.getId());
+	}
+
+	@Test
+	public void getByName() {
+		Mockito.when(repository.findByName(Mockito.anyString())).thenReturn(new ArrayList<User>());
+		List<User> newUsers = service.getByName(Mockito.anyString());
+		Mockito.verify(repository, Mockito.times(1)).findByName(Mockito.anyString());
+		Assertions.assertNotNull(newUsers);
 	}
 	
 	@Test
-	@Order(3)
-	public void getByName() {
-		String name = "Federico";
-		List<User> user = service.getByName(name);
-		assertNotNull(user);
+	public void getByUserName() {
+
+		Mockito.when(repository.findByUserName(Mockito.anyString())).thenReturn(Optional.of(new User()));
+		Optional<User> newUser = service.getByUserName(Mockito.anyString());
+		Mockito.verify(repository, Mockito.times(1)).findByUserName(Mockito.anyString());
+		Assertions.assertTrue(newUser.isPresent());
 	}
 
 	@Test
-	@Order(4)
 	public void update() {
-		User user = service.getById(ID).get();
-		user.setName("Frederic");
-		User updated = service.update(user);
-		assertNotNull(updated);
+		User user = Expectations.createUser("c/ example n12", "Federico", "123456", "644865819", "particular", "fred");
+		Mockito.when(repository.save(user)).thenReturn(user);
+		User result = service.update(user);
+		Assertions.assertEquals("c/ example n12", result.getAddress());
+		Assertions.assertEquals("Federico", result.getName());
+		Assertions.assertEquals("123456", result.getPassword());
+		Assertions.assertEquals("644865819", result.getPhone());
+		Assertions.assertEquals("particular", result.getType());
+		Assertions.assertEquals("fred", result.getUserName());
+		Mockito.verify(repository, Mockito.times(1)).save(user);
 	}
-
+	
 	@Test
-	@Order(5)
 	public void delete() {
-		assertTrue(service.remove(ID));
+		service.delete(Mockito.anyLong());
+		Mockito.verify(repository, Mockito.times(1)).deleteById(Mockito.anyLong());
 	}
 }

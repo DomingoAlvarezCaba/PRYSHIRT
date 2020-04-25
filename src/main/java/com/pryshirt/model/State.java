@@ -66,4 +66,17 @@ public class State {
 	public State(long id) {
 		this.id = id;
 	}
+
+	public State(long id, String state, Calendar date, long orderId) {
+		this.id = id;
+		this.state = state;
+		this.date = date;
+		this.orderId = orderId;
+	}
+	
+	public State(String state, Calendar date, long orderId) {
+		this.state = state;
+		this.date = date;
+		this.orderId = orderId;
+	}
 }

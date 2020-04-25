@@ -116,4 +116,18 @@ public class Order {
 	public Order(long id) {
 		this.id = id;
 	}
+
+	public Order(long id, String state, Calendar date, Calendar dateState, long userId) {
+		this.id = id;
+		this.state = state;
+		this.date = date;
+		this.dateState = dateState;
+		this.userId = userId;
+	}
+	public Order(String state, Calendar date, Calendar dateState, long userId) {
+		this.state = state;
+		this.date = date;
+		this.dateState = dateState;
+		this.userId = userId;
+	}
 }

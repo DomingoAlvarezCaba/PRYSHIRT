@@ -1,75 +1,78 @@
 package com.pryshirt.service;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.pryshirt.PryshirtApplication;
-import com.pryshirt.model.Product;
 import com.pryshirt.model.Shirt;
+import com.pryshirt.repository.ShirtRepository;
+import com.pryshirt.utils.Expectations;
 
-@TestMethodOrder(OrderAnnotation.class)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PryshirtApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@RunWith(MockitoJUnitRunner.class)
 public class ShirtServiceTests {
-
-	@Autowired
+	
+	@Mock
+	private ShirtRepository repository;
+	
+	@InjectMocks
 	private ShirtService service;
 	
-	private static final long ID = 6;
+	@BeforeEach
+	public void setup(){
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
-	@Order(1)
 	public void create() {
-		Shirt shirt = new Shirt();
-		Product product = new Product();
-		product.setDiscount(1.75f);
-		product.setPrice(16.25f);
-		shirt.setProduct(product);
-		shirt.setColor("black");
-		shirt.setSize("40");
-		Shirt newShirt = service.add(shirt);
-		assertNotNull(newShirt);
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(repository.save(shirt)).thenReturn(shirt);
+		Shirt result = service.create(shirt);
+		Assertions.assertEquals("black", result.getColor());
+		Assertions.assertEquals("40", result.getSize());
+		Mockito.verify(repository, Mockito.times(1)).save(shirt);
 	}
 	
 	@Test
-	@Order(2)
 	public void getById() {
-		Shirt shirt = service.getById(ID).get();
-		assertNotNull(shirt);
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(shirt));
+		Optional<Shirt> result = service.getById(Mockito.anyLong());
+		Assertions.assertEquals("black", result.get().getColor());
+		Assertions.assertEquals("40", result.get().getSize());
+		Mockito.verify(repository, Mockito.times(1)).findById(Mockito.anyLong());
+	}
+
+	@Test
+	public void getByColor() {
+		Mockito.when(repository.findByColor(Mockito.anyString())).thenReturn(new ArrayList<Shirt>());
+		List<Shirt> newShirts = service.getByColor(Mockito.anyString());
+		Mockito.verify(repository, Mockito.times(1)).findByColor(Mockito.anyString());
+		Assertions.assertNotNull(newShirts);
+	}
+
+	@Test
+	public void update() {
+		Shirt shirt = Expectations.createShirt("black", "40");
+		Mockito.when(repository.save(shirt)).thenReturn(shirt);
+		Shirt result = service.update(shirt);
+		Assertions.assertEquals("black", result.getColor());
+		Assertions.assertEquals("40", result.getSize());
+		Mockito.verify(repository, Mockito.times(1)).save(shirt);
 	}
 	
 	@Test
-	@Order(3)
-	public void getByColor() {
-		String color = "black";
-		List<Shirt> shirt = service.getByColor(color);
-		assertNotNull(shirt);
-	}
-
-	@Test
-	@Order(4)
-	public void update() {
-		Shirt shirt = service.getById(ID).get();
-		shirt.setColor("yellow");
-		Shirt updated = service.update(shirt);
-		assertNotNull(updated);
-	}
-
-	@Test
-	@Order(5)
 	public void delete() {
-		assertTrue(service.remove(ID));
+		service.delete(1l);
+		Mockito.verify(repository, Mockito.times(1)).deleteById(1l);
 	}
 }
