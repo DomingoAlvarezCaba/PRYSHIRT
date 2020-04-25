@@ -74,13 +74,20 @@ spring.datasource.url= jdbc:postgresql://localhost/shop
 spring.datasource.username= postgres
 spring.datasource.password= admin
 ```
+###### Directorio para subida de archivos
+
+Es necesario configurar el siguiente parámetro para poder subir ficheros al servidor.
+```
+file.upload-dir=/home/user/Desktop/Uploads
+```
+
 Cómo ejecutar la app
 --------------------
 
-Para ejecutar la app, esta se debe de construir, para ello debemos de ejecutar el comando ``` mvn package ```, en esta caso, no queremos ejecutar los tests porque están creados para casos en concreto, por lo tanto, debemos de ejecutar el comando con el parámetro ``` mvn package -DskipTests ```
+Para ejecutar la app, esta se debe de construir, para ello debemos de ejecutar el comando ``` mvn package ```
+En el esta caso de que no queremos ejecutar los tests debemos de ejecutar el comando con el parámetro ``` mvn package -DskipTests ```
 
-
-Una vez construido, se debe de ejecutar el jar ``` target/PRYSHIRT-0.0.1-SNAPSHOT.jar ```
+Una vez construida, se debe de ejecutar el jar ``` target/PRYSHIRT-0.0.1-SNAPSHOT.jar ```
 ```
 java  -jar PRYSHIRT.jar
 ```
@@ -96,15 +103,18 @@ Ejemplo de las rutas para los productos.
 * PUT /pryhirt/product/{id} -> Modifica un pedido y lo devuelve.
 * DELETE /pryhirt/product/{id} -> Borra un pedido y devuelve true en caso de haber tenido éxito y false en caso contrario.
 
+Ejemplo de las rutas para los archivos.
+
+* POST /pryhirt/upload -> Sube un archivo al servidor.
+* POST /pryhirt/uploads -> Sube varios archivos al servidor.
+* GET /pryhirt/download{nombre} -> Descarga el archivo que contenga ese nombre del servidor.
+
 Principales problemas y su resolución
 -------------------------------------
-* Error de recursión infinita: Para evitar un problema de recursión infinita en un relación entre tablas, se debe de añadir la 
-anotación @JsonBackReference para indicar la parte de la relación que no se quiere Serializar, este problema lo causa la librería
-de JSON "Jackson".
+* Error de recursión infinita: Para evitar un problema de recursión infinita en un relación entre tablas, se debe de añadir la anotación @JsonBackReference para indicar la parte de la relación que no se quiere Serializar, este problema lo causa la librería de JSON "Jackson".
 
-* Problema al usar palabras reservadas: Al usar una palabra reservada en postgresql como 'order' para crear una tabla produce un error,
-para poder solucionar esto se debe de escribir el nombre de la tabla entre comillas dobles "order".
+* Problema al usar palabras reservadas: Al usar una palabra reservada en postgresql como 'order' para crear una tabla produce un error, para poder solucionar esto se debe de escribir el nombre de la tabla entre comillas dobles "order".
 
-* Conflictos al realizar un merge: Surgen cuando los commits de la rama a fusionar y de la rama actual modifican la misma parte en un
-archivo en particular y git no sabe con qué versión quedarse. Antes de hacer un commit en la rama que se ha hecho el merge se debe
-de elegir la versión que se quiere dejar en los archivos que tengan conflictos.
+* Conflictos al realizar un merge: Surgen cuando los commits de la rama a fusionar y de la rama actual modifican la misma parte en un archivo en particular y git no sabe con qué versión quedarse. Antes de hacer un commit en la rama que se ha hecho el merge se debe de elegir la versión que se quiere dejar en los archivos que tengan conflictos.
+
+* Conflictos entre librerías de JUnit: Surge al importar la librería de la anotación @Test incorrecta en JUnit5. JUnit5 usa la librería org.junit.jupiter.api.Test y JUNit4 usa la librería org.junit.Test.
