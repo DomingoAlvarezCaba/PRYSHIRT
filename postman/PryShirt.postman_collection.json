@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1d0c319-1b12-42fc-86a8-d7a90b445ea0",
+		"_postman_id": "f71cdd4d-dd38-4fcf-89ad-180469ea6e7d",
 		"name": "PryShirt",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -892,6 +892,85 @@
 					]
 				},
 				"description": "Obtiene todos los usuarios"
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/uploads",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": [
+								"/home/dalvarez/Documents/workspace-spring-tool-suite/PRYSHIRT/mvnw",
+								"/home/dalvarez/Documents/workspace-spring-tool-suite/PRYSHIRT/mvnw.cmd",
+								"/home/dalvarez/Documents/workspace-spring-tool-suite/PRYSHIRT/pom.xml"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/uploads",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"uploads"
+					]
+				},
+				"description": "Sube un archivos al servidor. La key del form-data tiene que ser ´files´"
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/dalvarez/Documents/workspace-spring-tool-suite/PRYSHIRT/mvnw"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/upload",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"upload"
+					]
+				},
+				"description": "Sube un archivo al servidor. La key del form-data tiene que ser ´file´"
+			},
+			"response": []
+		},
+		{
+			"name": "{{BASE_URL}}/download/mvnw",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/download/mvnw",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"download",
+						"mvnw"
+					]
+				},
+				"description": "Descarga el archivo ´mvnw´"
 			},
 			"response": []
 		}
