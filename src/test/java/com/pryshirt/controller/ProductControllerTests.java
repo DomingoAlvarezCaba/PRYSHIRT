@@ -1,7 +1,6 @@
 package com.pryshirt.controller;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,6 @@ public class ProductControllerTests {
 	
 	@InjectMocks
 	private ProductController controller;
-	
 	
 	@BeforeEach
 	public void setup(){
